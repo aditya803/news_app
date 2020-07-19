@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/newspage.dart';
+import 'screens/NewsTile.dart';
 
 void main(){
   runApp(NewsApp());
@@ -46,8 +46,8 @@ class NewsApp extends StatelessWidget {
        body: TabBarView(
            controller: controller,
            children: <Widget>[
-             NewsPage(),
-             NewsPage(),
+             NewsTile(),
+             NewsTile()
            ]),
      );
    }
