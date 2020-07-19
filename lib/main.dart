@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/NewsTile.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main(){
   runApp(NewsApp());
@@ -22,9 +24,8 @@ class NewsApp extends StatelessWidget {
   TabController controller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    controller = TabController(length: 2, vsync: this);
+    controller = TabController(length: 3, vsync: this);
   }
   @override
   void dispose() {
@@ -40,12 +41,14 @@ class NewsApp extends StatelessWidget {
              controller: controller,
              tabs: <Widget>[
                Tab(text: 'Covid'),
-               Tab(text: 'Sports')
+               Tab(text: 'Sports'),
+               Tab(text: 'lifestyle',)
              ]),
        ),
        body: TabBarView(
            controller: controller,
            children: <Widget>[
+             NewsTile(),
              NewsTile(),
              NewsTile()
            ]),

@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class NewsTile extends StatefulWidget {
   @override
@@ -6,99 +9,45 @@ class NewsTile extends StatefulWidget {
 }
 
 class _NewsTileState extends State<NewsTile> {
-  var newsList = [
-    {
-      "name": "A",
-      "image":"assets/1.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/2.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/3.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/4.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/5.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/6.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/7.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/8.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/9.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/10.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/11.jpg" ,
-      "location": "Delhi",
-    },
-    {
-      "name": "A",
-      "image": "assets/12.jpg" ,
-      "location": "Delhi",
-    },
-  ];
+  List data;
+  final String baseurl = "http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=22b7a3f465fc492fb16a50b0c0a670b5";
+  Future<String> makeRequest() async{
+    var response = await http.get(
+        Uri.encodeFull(baseurl),
+        headers: {"Accept": "application/json"}
+    );
+    var extractData = jsonDecode(response.body);
+    data = extractData["articles"];
+    print(data[0]['author']);
+  }
+  @override
+  void initState() {
+    this.makeRequest();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: newsList.length,
+        itemCount: data == null? 0:data.length,
         itemBuilder: (BuildContext context, int index){
-          return SingleProd(
-            prod_name: newsList[index]['name'],
-            prod_image: newsList[index]['image'],
-            prod_location: newsList[index]['location'],
+          return Padding(
+              padding: EdgeInsets.all(15.0),
+              child: InkWell(
+                onTap: (){},
+                child: Container(
+                  //child: Text(data[index]['author'] == null ? "Author not found" : data[index]['author']),
+                  child: Column(
+                  children: <Widget>[
+                    Image.asset(data[index]['urlToImage'] == null ? "assets/1.png": data[index]['urlToImage'] ),
+                    Text(data[index]['author'] == null ? "Title not found": data[index]['title']),
+                    Text(data[index]['author'] == null ? "Author not found": data[index]['author']),
+                  ],
+                ),
+                ),
+              )
           );
         });
   }
 }
 
-class SingleProd extends StatelessWidget {
-  final prod_name;
-  final prod_image;
-  final prod_location;
-
-  SingleProd({this.prod_name,this.prod_location, this.prod_image});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Image(image: prod_image),
-          Text(prod_name),
-          Text(prod_location)
-        ],
-      ),
-    );
-  }
-}
 
