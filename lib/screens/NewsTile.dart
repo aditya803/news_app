@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:news_app/screens/WebViewPage.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsTile extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class NewsTile extends StatefulWidget {
 }
 
 class _NewsTileState extends State<NewsTile> {
+  WebViewPage webViewPage = WebViewPage();
   List data;
   final String baseurl = "http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=22b7a3f465fc492fb16a50b0c0a670b5";
   Future<String> makeRequest() async{
@@ -33,9 +36,8 @@ class _NewsTileState extends State<NewsTile> {
           return Padding(
               padding: EdgeInsets.all(15.0),
               child: InkWell(
-                onTap: (){},
+                onTap: ()=> WebViewController(context, data[index]['url']),
                 child: Container(
-                  //child: Text(data[index]['author'] == null ? "Author not found" : data[index]['author']),
                   child: Column(
                   children: <Widget>[
                     Image.asset(data[index]['urlToImage'] == null ? "assets/1.png": data[index]['urlToImage'] ),
@@ -47,6 +49,12 @@ class _NewsTileState extends State<NewsTile> {
               )
           );
         });
+  }
+  void WebViewController(BuildContext context, String url){
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => WebViewPage(url: url))
+      );
   }
 }
 
