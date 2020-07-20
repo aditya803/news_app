@@ -41,8 +41,9 @@ class _NewsTileState extends State<NewsTile> {
                   child: Column(
                   children: <Widget>[
                     Image.asset(data[index]['urlToImage'] == null ? "assets/1.png": data[index]['urlToImage'] ),
-                    Text(data[index]['author'] == null ? "Title not found": data[index]['title']),
-                    Text(data[index]['author'] == null ? "Author not found": data[index]['author']),
+                    Text(data[index]['title'] == null ? "Title not found": data[index]['title']),
+                    Text(data[index]['description'] == null ? "description not found": data[index]['description']),
+                    Text(data[index]['publishedAt'] == null ? "description not found": data[index]['publishedAt']),
                   ],
                 ),
                 ),
