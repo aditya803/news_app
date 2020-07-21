@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:news_app/screens/WebViewPage.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 
 class NewsTile extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _NewsTileState extends State<NewsTile> {
                 child: Container(
                   child: Column(
                   children: <Widget>[
-                    Image.asset(data[index]['urlToImage'] == null ? "assets/1.png": data[index]['urlToImage'] ),
+                    Image.network(data[index]['urlToImage'] == null ? "https://i.stack.imgur.com/fIdZE.png": data[index]['urlToImage']),
                     Text(data[index]['title'] == null ? "Title not found": data[index]['title']),
                     Text(data[index]['description'] == null ? "description not found": data[index]['description']),
                     Text(data[index]['publishedAt'] == null ? "description not found": data[index]['publishedAt']),
